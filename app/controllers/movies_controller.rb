@@ -7,7 +7,10 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @all_ratings = Movie.all_ratings
+    @ratings_to_show = params.include?('ratings') ? params['ratings'].keys : []
+    @movies = Movie.with_ratings(@ratings_to_show)
+    # logger.debug "#{params}" # params['ratings']: {'G'=>1}
   end
 
   def new

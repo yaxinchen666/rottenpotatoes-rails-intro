@@ -10,6 +10,14 @@ class Movie < ActiveRecord::Base
     end
   end
 
+  def self.sort(sort_column)
+    if sort_column.nil?
+      return self.all
+    else
+      return self.order(sort_column)
+    end
+  end
+
   def self.all_ratings
     return self.select('rating').distinct.map(&:rating)
   end

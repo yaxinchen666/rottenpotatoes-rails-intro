@@ -11,6 +11,8 @@ class MoviesController < ApplicationController
     @ratings_to_show = params.include?('ratings') ? params['ratings'].keys : []
     @movies = Movie.with_ratings(@ratings_to_show)
     # logger.debug "#{params}" # params['ratings']: {'G'=>1}
+    @sort_column = params.include?('sort_column') ? params['sort_column'] : nil
+    @movies = Movie.sort(@sort_column)
   end
 
   def new

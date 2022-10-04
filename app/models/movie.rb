@@ -10,11 +10,12 @@ class Movie < ActiveRecord::Base
     end
   end
 
-  def self.sort(sort_column)
+  def self.sort_with_ratings(sort_column, ratings_list)
+    movies_with_ratings = self.with_ratings(ratings_list)
     if sort_column.nil?
-      return self.all
+      return movies_with_ratings
     else
-      return self.order(sort_column)
+      return movies_with_ratings.order(sort_column)
     end
   end
 

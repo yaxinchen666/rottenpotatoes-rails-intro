@@ -8,8 +8,22 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.all_ratings
-    @ratings_to_show = params.include?('ratings') ? params['ratings'].keys : []
-    @sort_column = params.include?('sort_column') ? params['sort_column'] : nil
+    if params.include?('ratings')
+      session[:ratings] = @ratings_to_show = params['ratings'].keys
+    elsif session.include?(:ratings)
+      @ratings_to_show = session[:ratings]
+    else
+      @ratings_to_show = []
+    end
+
+    if params.include?('sort_column')
+      session[:sort_column] = @sort_column = params['sort_column']
+    elsif session.include?(:sort_column)
+      @sort_column = session[:sort_column]
+    else
+      @sort_column = nil
+    end
+
     @movies = Movie.sort_with_ratings(@sort_column, @ratings_to_show)
     # logger.debug "#{params}" # params['ratings']: {'G'=>1}
   end
